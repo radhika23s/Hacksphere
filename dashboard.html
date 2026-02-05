@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthifyAI Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0d4d0f;
+            --secondary: #19470d;
+            --accent: #294a0a;
+            --danger: #EF4444;
+            --bg: #FFFFFF;
+            --card: #F0FDF4;
+            --text: #7fac76;
+            --muted: #6B7280;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #FFFFFF 0%, #E0F7E9 100%);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 20px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .tabs {
+            display: none;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .tabs.show {
+            display: flex;
+        }
+
+        .tab-btn {
+            padding: 12px 20px;
+            background: var(--card);
+            border: 2px solid var(--muted);
+            color: var(--text);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .tab-btn.active {
+            background: var(--primary);
+            color: var(--bg);
+            border-color: var(--primary);
+        }
+
+        .tab-btn:hover {
+            border-color: var(--primary);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: var(--card);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(27, 79, 17, 0.2);
+        }
+
+        .stat-card h3 {
+            color: var(--primary);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .stat-card .value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            background: var(--card);
+            border: 1px solid var(--muted);
+            color: var(--text);
+            border-radius: 8px;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(14, 92, 27, 0.2);
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--bg);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(10, 85, 27, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+            color: var(--text);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .list-item {
+            background: var(--card);
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .list-item strong {
+            color: var(--primary);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(243, 240, 240, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--card);
+            padding: 30px;
+            border-radius: 12px;
+            border: 2px solid var(--primary);
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--muted);
+        }
+
+        .modal-header h2 {
+            color: var(--primary);
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: var(--muted);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .close-btn:hover {
+            color: var(--danger);
+        }
+
+        .result-box {
+            background: var(--card);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid var(--primary);
+            margin-top: 15px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .success-msg {
+            color: var(--primary);
+            margin-top: 10px;
+            padding: 10px;
+            background: rgba(18, 104, 15, 0.1);
+            border-radius: 6px;
+        }
+
+        .error-msg {
+            color: var(--danger);
+            margin-top: 10px;
+            padding: 10px;
+            background: rgba(237, 85, 121, 0.1);
+            border-radius: 6px;
+        }
+
+        .symptom-chip {
+            display: inline-block;
+            background: var(--secondary);
+            color: var(--text);
+            padding: 8px 12px;
+            border-radius: 20px;
+            margin: 5px 5px 5px 0;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+            <div>
+                <h1 data-translate="title">🏥 HealthifyAI Dashboard</h1>
+                <p data-translate="subtitle">ML-Powered Health Prediction & Management System</p>
+            </div>
+            <div style="display: flex; gap: 15px; align-items: center;">
+                <select id="languageSelect" onchange="changeLanguage()" style="padding: 8px; border-radius: 6px; border: 1px solid var(--muted);">
+                    <option value="en">English</option>
+                    <option value="mr">मराठी</option>
+                    <option value="hi">हिंदी</option>
+                </select>
+                <div id="authButtons">
+                    <button class="btn btn-secondary" onclick="showLoginModal()">Login</button>
+                    <button class="btn btn-primary" onclick="showRegisterModal()">Register</button>
+                </div>
+                <div id="userInfo" style="display: none;">
+                    <span id="userDisplayName"></span>
+                    <button class="btn btn-danger" onclick="logout()">Logout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" id="dashboardContainer" style="display: none;">
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('predict')">Predict</button>
+            <button class="tab-btn" onclick="switchTab('status')">Status</button>
+            <button class="tab-btn" onclick="switchTab('symptoms')">Symptoms</button>
+            <button class="tab-btn" onclick="switchTab('diseases')">Diseases</button>
+            <button class="tab-btn" onclick="switchTab('profile')">Profile</button>
+        </div>
+
+        <!-- PREDICT SCREEN -->
+        <div id="predict" class="tab-content active">
+            <h2 style="color: var(--primary); margin-bottom: 20px;">Health Prediction Form</h2>
+            <div class="grid">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" id="name" placeholder="Your name">
+                </div>
+                <div class="form-group">
+                    <label>Age</label>
+                    <input type="number" id="age" placeholder="Age" value="25">
+                </div>
+                <div class="form-group">
+                    <label>Gender</label>
+                    <select id="gender">
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Height (cm)</label>
+                    <input type="number" id="height_cm" placeholder="170" value="170">
+                </div>
+                <div class="form-group">
+                    <label>Weight (kg)</label>
+                    <input type="number" id="weight_kg" placeholder="70" value="70">
+                </div>
+                <div class="form-group">
+                    <label>Fitness Goal</label>
+                    <select id="goal">
+                        <option value="stay fit">Stay Fit</option>
+                        <option value="lose weight">Lose Weight</option>
+                        <option value="gain muscle">Gain Muscle</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Hypertension</label>
+                    <select id="hypertension">
+                        <option value="no">No</option>
+                        <option value="yes">Yes</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Select Symptoms:</label>
+                <div id="symptomsList" style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;"></div>
+            </div>
+
+            <div class="form-group">
+                <label>Other Symptoms (comma separated)</label>
+                <textarea id="other" placeholder="e.g. rash, itching, dizziness" rows="3"></textarea>
+            </div>
+
+            <div style="text-align: center;">
+                <button class="btn btn-primary" onclick="predict()" style="padding: 15px 40px; font-size: 1.1rem;">Get Health Report</button>
+            </div>
+
+            <div id="predictResult" class="result-box" style="display: none; margin-top: 30px;">
+                <h3 style="color: var(--primary); margin-bottom: 15px;">📋 Your Health Report</h3>
+                <div id="reportContent" style="margin-top: 20px;"></div>
+            </div>
+        </div>
+
+        <!-- STATUS TAB -->
+        <div id="status" class="tab-content">
+            <h2 style="color: var(--primary); margin-bottom: 20px;">System Status</h2>
+            <div id="statusCards" class="grid"></div>
+        </div>
+
+        <!-- SYMPTOMS TAB -->
+        <div id="symptoms" class="tab-content">
+            <h2 style="color: var(--primary); margin-bottom: 20px;">Manage Symptoms</h2>
+            <div style="margin-bottom: 30px;">
+                <button class="btn btn-primary" onclick="openAddSymptomModal()">+ Add New Symptom</button>
+            </div>
+            <div id="symptomsList2" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 15px;"></div>
+        </div>
+
+        <!-- DISEASES TAB -->
+        <div id="diseases" class="tab-content">
+            <h2 style="color: var(--primary); margin-bottom: 20px;">Disease Information</h2>
+            <div id="diseasesList" style="display: flex; flex-direction: column; gap: 10px;"></div>
+        </div>
+
+        <!-- PROFILE TAB -->
+        <div id="profile" class="tab-content">
+            <h2 style="color: var(--primary); margin-bottom: 20px;">User Profile</h2>
+            <div id="profileContent">
+                <p>Please login to view your profile.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADD SYMPTOM MODAL -->
+    <div id="addSymptomModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add New Symptom</h2>
+                <button class="close-btn" onclick="closeModal('addSymptomModal')">×</button>
+            </div>
+            <div class="form-group">
+                <label>Symptom Name</label>
+                <input type="text" id="newSymptomName" placeholder="e.g. chest pain">
+            </div>
+            <div class="form-group">
+                <label>Weight (1-10)</label>
+                <input type="number" id="newSymptomWeight" placeholder="5" min="1" max="10" value="5">
+            </div>
+            <button class="btn btn-primary" onclick="addSymptom()">Add Symptom</button>
+            <div id="addSymptomMsg"></div>
+        </div>
+    </div>
+
+    <!-- DISEASE INFO MODAL -->
+    <div id="diseaseInfoModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="diseaseTitle"></h2>
+                <button class="close-btn" onclick="closeModal('diseaseInfoModal')">×</button>
+            </div>
+            <div id="diseaseDetails"></div>
+        </div>
+    </div>
+
+    <!-- LOGIN MODAL -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 data-translate="auth.login">Login</h2>
+                <button class="close-btn" onclick="closeModal('loginModal')">×</button>
+            </div>
+            <div class="form-group">
+                <label data-translate="auth.username">Username</label>
+                <input type="text" id="loginUsername" placeholder="Enter username">
+            </div>
+            <div class="form-group">
+                <label data-translate="auth.password">Password</label>
+                <input type="password" id="loginPassword" placeholder="Enter password">
+            </div>
+            <button class="btn btn-primary" onclick="login()" style="width: 100%;">Login</button>
+            <div id="loginMsg"></div>
+            <p style="text-align: center; margin-top: 15px;">
+                <a href="#" onclick="closeModal('loginModal'); showRegisterModal();">Don't have an account? Register</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- REGISTER MODAL -->
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 data-translate="auth.register">Register</h2>
+                <button class="close-btn" onclick="closeModal('registerModal')">×</button>
+            </div>
+            <div class="form-group">
+                <label data-translate="auth.username">Username</label>
+                <input type="text" id="registerUsername" placeholder="Choose username">
+            </div>
+            <div class="form-group">
+                <label data-translate="auth.email">Email</label>
+                <input type="email" id="registerEmail" placeholder="Enter email">
+            </div>
+            <div class="form-group">
+                <label data-translate="auth.password">Password</label>
+                <input type="password" id="registerPassword" placeholder="Choose password">
+            </div>
+            <div class="form-group">
+                <label data-translate="auth.confirm_password">Confirm Password</label>
+                <input type="password" id="registerConfirmPassword" placeholder="Confirm password">
+            </div>
+            <button class="btn btn-primary" onclick="register()" style="width: 100%;">Register</button>
+            <div id="registerMsg"></div>
+            <p style="text-align: center; margin-top: 15px;">
+                <a href="#" onclick="closeModal('registerModal'); showLoginModal();">Already have an account? Login</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        const API = 'http://localhost:5000';
+        let commonSymptoms = [
+            "fever", "headache", "fatigue", "body pain", "cough",
+            "nausea", "diarrhea", "chills", "sore_throat", "sneeze"
+        ];
+        let translations = {};
+        let currentLanguage = 'en';
+
+        // Load translations
+        async function loadTranslations() {
+            try {
+                const res = await fetch('translations.json');
+                translations = await res.json();
+
+                // Load saved language preference or default to 'en'
+                const savedLang = localStorage.getItem('selectedLanguage') || 'en';
+                document.getElementById('languageSelect').value = savedLang;
+                changeLanguage();
+            } catch (e) {
+                console.error('Failed to load translations:', e);
+            }
+        }
+
+        // Change language
+        function changeLanguage() {
+            const lang = document.getElementById('languageSelect').value;
+            currentLanguage = lang;
+
+            // Save language preference to localStorage
+            localStorage.setItem('selectedLanguage', lang);
+
+            document.querySelectorAll('[data-translate]').forEach(el => {
+                const key = el.getAttribute('data-translate');
+                const keys = key.split('.');
+                let value = translations[lang];
+                for (const k of keys) {
+                    value = value && value[k];
+                }
+                if (value) {
+                    el.textContent = value;
+                }
+            });
+
+            // Update placeholders and options
+            updatePlaceholders(lang);
+        }
+
+        function updatePlaceholders(lang) {
+            const t = translations[lang];
+            if (!t) return;
+
+            // Update form placeholders and labels
+            document.querySelector('label[for="name"]').textContent = t.predict.name;
+            document.querySelector('label[for="age"]').textContent = t.predict.age;
+            document.querySelector('label[for="gender"]').textContent = t.predict.gender;
+            document.querySelector('label[for="height_cm"]').textContent = t.predict.height;
+            document.querySelector('label[for="weight_kg"]').textContent = t.predict.weight;
+            document.querySelector('label[for="goal"]').textContent = t.predict.goal;
+            document.querySelector('label[for="hypertension"]').textContent = t.predict.hypertension;
+
+            // Update select options
+            const genderSelect = document.getElementById('gender');
+            genderSelect.options[0].textContent = t.predict.male;
+            genderSelect.options[1].textContent = t.predict.female;
+
+            const goalSelect = document.getElementById('goal');
+            goalSelect.options[0].textContent = t.predict.stay_fit;
+            goalSelect.options[1].textContent = t.predict.lose_weight;
+            goalSelect.options[2].textContent = t.predict.gain_muscle;
+
+            const hypertensionSelect = document.getElementById('hypertension');
+            hypertensionSelect.options[0].textContent = t.predict.no;
+            hypertensionSelect.options[1].textContent = t.predict.yes;
+        }
+
+        // Authentication functions
+        async function checkAuthStatus() {
+            try {
+                const res = await fetch(`${API}/api/auth/status`);
+                const data = await res.json();
+                if (data.authenticated) {
+                    showUserInfo(data.user);
+                    showPredictOnly();
+                } else {
+                    hideHeader();
+                    showLoginModal();
+                    hideDashboard();
+                }
+            } catch (e) {
+                console.error('Auth check failed:', e);
+                hideHeader();
+                showLoginModal();
+                hideDashboard();
+            }
+        }
+
+        function showUserInfo(user) {
+            document.getElementById('authButtons').style.display = 'none';
+            document.getElementById('userInfo').style.display = 'flex';
+            document.getElementById('userDisplayName').textContent = `Welcome, ${user.username}!`;
+        }
+
+        function showLoginButtons() {
+            document.getElementById('authButtons').style.display = 'flex';
+            document.getElementById('userInfo').style.display = 'none';
+        }
+
+        function showDashboard() {
+            document.getElementById('dashboardContainer').style.display = 'block';
+        }
+
+        function hideDashboard() {
+            document.getElementById('dashboardContainer').style.display = 'none';
+        }
+
+        function hideHeader() {
+            document.querySelector('.header').style.display = 'none';
+        }
+
+        function showHeader() {
+            document.querySelector('.header').style.display = 'block';
+        }
+
+        function showPredictOnly() {
+            showHeader();
+            showDashboard();
+            document.querySelector('.tabs').classList.add('show');
+            switchTab('predict');
+        }
+
+        function showLoginModal() {
+            document.getElementById('loginModal').classList.add('active');
+        }
+
+        function showRegisterModal() {
+            document.getElementById('registerModal').classList.add('active');
+        }
+
+        async function login() {
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+
+            try {
+                const res = await fetch(`${API}/api/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+                const data = await res.json();
+
+                if (res.ok) {
+                    document.getElementById('loginMsg').innerHTML = `<div class="success-msg">${data.message}</div>`;
+                    setTimeout(() => {
+                        closeModal('loginModal');
+                        checkAuthStatus();
+                        loadProfile();
+                    }, 1500);
+                } else {
+                    document.getElementById('loginMsg').innerHTML = `<div class="error-msg">${data.error}</div>`;
+                }
+            } catch (e) {
+                document.getElementById('loginMsg').innerHTML = `<div class="error-msg">Error: ${e.message}</div>`;
+            }
+        }
+
+        async function register() {
+            const username = document.getElementById('registerUsername').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('registerConfirmPassword').value;
+
+            if (password !== confirmPassword) {
+                document.getElementById('registerMsg').innerHTML = `<div class="error-msg">Passwords do not match</div>`;
+                return;
+            }
+
+            try {
+                const res = await fetch(`${API}/api/auth/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, email, password })
+                });
+                const data = await res.json();
+
+                if (res.ok) {
+                    document.getElementById('registerMsg').innerHTML = `<div class="success-msg">${data.message}</div>`;
+                    setTimeout(() => {
+                        closeModal('registerModal');
+                        checkAuthStatus();
+                        loadProfile();
+                    }, 1500);
+                } else {
+                    document.getElementById('registerMsg').innerHTML = `<div class="error-msg">${data.error}</div>`;
+                }
+            } catch (e) {
+                document.getElementById('registerMsg').innerHTML = `<div class="error-msg">Error: ${e.message}</div>`;
+            }
+        }
+
+        async function logout() {
+            try {
+                await fetch(`${API}/api/auth/logout`, { method: 'POST' });
+                checkAuthStatus();
+                document.getElementById('profileContent').innerHTML = '<p>Please login to view your profile.</p>';
+            } catch (e) {
+                console.error('Logout failed:', e);
+            }
+        }
+
+        async function loadProfile() {
+            try {
+                const res = await fetch(`${API}/api/profile`);
+                if (res.ok) {
+                    const user = await res.json();
+                    const profileHtml = `
+                        <div class="grid">
+                            <div class="form-group">
+                                <label>Username</label>
+                                <input type="text" value="${user.username}" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" value="${user.email}" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label>Age</label>
+                                <input type="number" id="profileAge" value="${user.age || ''}" placeholder="Enter age">
+                            </div>
+                            <div class="form-group">
+                                <label>Gender</label>
+                                <select id="profileGender">
+                                    <option value="Male" ${user.gender === 'Male' ? 'selected' : ''}>Male</option>
+                                    <option value="Female" ${user.gender === 'Female' ? 'selected' : ''}>Female</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Height (cm)</label>
+                                <input type="number" id="profileHeight" value="${user.height_cm || ''}" placeholder="Enter height">
+                            </div>
+                            <div class="form-group">
+                                <label>Weight (kg)</label>
+                                <input type="number" id="profileWeight" value="${user.weight_kg || ''}" placeholder="Enter weight">
+                            </div>
+                            <div class="form-group">
+                                <label>Fitness Goal</label>
+                                <select id="profileGoal">
+                                    <option value="stay fit" ${user.goal === 'stay fit' ? 'selected' : ''}>Stay Fit</option>
+                                    <option value="lose weight" ${user.goal === 'lose weight' ? 'selected' : ''}>Lose Weight</option>
+                                    <option value="gain muscle" ${user.goal === 'gain muscle' ? 'selected' : ''}>Gain Muscle</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Hypertension</label>
+                                <select id="profileHypertension">
+                                    <option value="no" ${user.hypertension === 'no' ? 'selected' : ''}>No</option>
+                                    <option value="yes" ${user.hypertension === 'yes' ? 'selected' : ''}>Yes</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div style="text-align: center; margin-top: 30px;">
+                            <button class="btn btn-primary" onclick="updateProfile()">Save Profile</button>
+                        </div>
+                        <div id="profileMsg" style="margin-top: 20px;"></div>
+                    `;
+                    document.getElementById('profileContent').innerHTML = profileHtml;
+                } else {
+                    document.getElementById('profileContent').innerHTML = '<p>Please login to view your profile.</p>';
+                }
+            } catch (e) {
+                console.error('Failed to load profile:', e);
+            }
+        }
+
+        async function updateProfile() {
+            const data = {
+                age: document.getElementById('profileAge').value,
+                gender: document.getElementById('profileGender').value,
+                height_cm: document.getElementById('profileHeight').value,
+                weight_kg: document.getElementById('profileWeight').value,
+                goal: document.getElementById('profileGoal').value,
+                hypertension: document.getElementById('profileHypertension').value
+            };
+
+            try {
+                const res = await fetch(`${API}/api/profile`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const result = await res.json();
+
+                if (res.ok) {
+                    document.getElementById('profileMsg').innerHTML = `<div class="success-msg">${result.message}</div>`;
+                } else {
+                    document.getElementById('profileMsg').innerHTML = `<div class="error-msg">${result.error}</div>`;
+                }
+            } catch (e) {
+                document.getElementById('profileMsg').innerHTML = `<div class="error-msg">Error: ${e.message}</div>`;
+            }
+        }
+
+        // Initialize
+        window.addEventListener('load', () => {
+            loadTranslations();
+            loadCommonSymptoms();
+            loadStatus();
+            loadSymptoms();
+            loadDiseases();
+            checkAuthStatus();
+        });
+
+        function switchTab(tab, button = null) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(tab).classList.add('active');
+            if (button) {
+                button.classList.add('active');
+            } else {
+                // Find the button by its onclick attribute
+                const btn = Array.from(document.querySelectorAll('.tab-btn')).find(b => b.getAttribute('onclick').includes(`'${tab}'`));
+                if (btn) btn.classList.add('active');
+            }
+        }
+
+        function loadCommonSymptoms() {
+            const container = document.getElementById('symptomsList');
+            container.innerHTML = '';
+            commonSymptoms.forEach(sym => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'symptom-chip';
+                btn.textContent = sym.replace('_', ' ');
+                btn.dataset.sym = sym;
+                btn.style.background = 'var(--secondary)';
+                btn.style.border = 'none';
+                btn.style.cursor = 'pointer';
+                btn.style.transition = 'all 0.3s';
+                btn.addEventListener('click', function() {
+                    this.style.background = this.style.background === 'var(--primary)' ? 'var(--secondary)' : 'var(--primary)';
+                });
+                container.appendChild(btn);
+            });
+        }
+
+        async function loadStatus() {
+            try {
+                const res = await fetch(`${API}/api/admin/status`);
+                const data = await res.json();
+                const html = `
+                    <div class="stat-card">
+                        <h3>Model Accuracy</h3>
+                        <div class="value">${data.model_accuracy}</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Known Symptoms</h3>
+                        <div class="value">${data.known_symptoms}</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Total Diseases</h3>
+                        <div class="value">${data.diseases}</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Training Records</h3>
+                        <div class="value">${data.total_records}</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Fitness Plans</h3>
+                        <div class="value">${data.fitness_records}</div>
+                    </div>
+                `;
+                document.getElementById('statusCards').innerHTML = html;
+            } catch (e) {
+                console.error('Failed to load status:', e);
+            }
+        }
+
+        async function loadSymptoms() {
+            try {
+                const res = await fetch(`${API}/api/admin/symptoms`);
+                const data = await res.json();
+                const html = data.symptoms.map(sym => `
+                    <div class="list-item">
+                        <strong>${sym.replace(/_/g, ' ')}</strong>
+                        <button class="btn btn-secondary" onclick="editSymptom('${sym}')">Edit</button>
+                    </div>
+                `).join('');
+                document.getElementById('symptomsList2').innerHTML = html || '<p>No symptoms found</p>';
+            } catch (e) {
+                console.error('Failed to load symptoms:', e);
+            }
+        }
+
+        async function loadDiseases() {
+            try {
+                const res = await fetch(`${API}/api/admin/diseases`);
+                const data = await res.json();
+                const html = data.diseases.map(disease => `
+                    <div class="list-item">
+                        <strong>${disease}</strong>
+                        <button class="btn btn-secondary" onclick="showDiseaseInfo('${disease}')">View</button>
+                    </div>
+                `).join('');
+                document.getElementById('diseasesList').innerHTML = html;
+            } catch (e) {
+                console.error('Failed to load diseases:', e);
+            }
+        }
+
+        function formatReport(data) {
+            return `
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px;">
+                    <div class="stat-card">
+                        <h4 style="margin-bottom: 10px;">👤 Name</h4>
+                        <p style="font-size: 1.1rem; color: var(--accent);">${data.name || 'Anonymous'}</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4 style="margin-bottom: 10px;">🎂 Age</h4>
+                        <p style="font-size: 1.1rem; color: var(--accent);">${data.age} years</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4 style="margin-bottom: 10px;">⚖️ BMI</h4>
+                        <p style="font-size: 1.1rem; color: ${data.bmi >= 25 ? 'var(--danger)' : 'var(--primary)'};">${data.bmi} kg/m²</p>
+                    </div>
+                    <div class="stat-card">
+                        <h4 style="margin-bottom: 10px;">⚡ Risk Score</h4>
+                        <p style="font-size: 1.1rem; color: ${data.risk_score >= 7 ? 'var(--danger)' : 'var(--accent)'};">${data.risk_score}/10</p>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 25px; padding: 20px; background: rgba(239, 71, 111, 0.1); border-left: 4px solid var(--danger); border-radius: 8px;">
+                    <h3 style="color: var(--danger); margin-bottom: 10px;">🔴 Disease Diagnosis</h3>
+                    <p style="font-size: 1.2rem; font-weight: bold; color: var(--accent); margin-bottom: 10px;">${data.disease}</p>
+                    <p style="color: var(--muted); line-height: 1.6;">${data.description}</p>
+                    <div style="margin-top: 15px; padding: 10px; background: rgba(6, 214, 160, 0.1); border-radius: 6px;">
+                        <strong style="color: var(--primary);">⚠️ Precautions:</strong>
+                        <p style="margin-top: 8px; color: var(--text);">${data.precautions}</p>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 25px; padding: 20px; background: rgba(6, 214, 160, 0.1); border-left: 4px solid var(--primary); border-radius: 8px;">
+                    <h3 style="color: var(--primary); margin-bottom: 15px;">🥗 Customized Diet Plan</h3>
+                    <p style="color: var(--text); line-height: 1.8; white-space: pre-wrap;">${data.diet}</p>
+                </div>
+
+                <div style="margin-bottom: 25px; padding: 20px; background: rgba(17, 138, 178, 0.1); border-left: 4px solid var(--secondary); border-radius: 8px;">
+                    <h3 style="color: var(--secondary); margin-bottom: 15px;">💪 Workout Routine</h3>
+                    <p style="color: var(--text); line-height: 1.8;">${data.exercises}</p>
+                </div>
+
+                <div style="margin-bottom: 25px; padding: 20px; background: rgba(255, 183, 3, 0.1); border-left: 4px solid var(--accent); border-radius: 8px;">
+                    <h3 style="color: var(--accent); margin-bottom: 15px;">✨ Wellness Recommendation</h3>
+                    <p style="color: var(--text); line-height: 1.8; white-space: pre-wrap;">${data.recommendation}</p>
+                </div>
+
+                <div style="margin-bottom: 25px; padding: 15px; background: var(--card); border-radius: 8px; border: 1px solid var(--muted);">
+                    <h4 style="color: var(--primary); margin-bottom: 10px;">📊 Health Profile Summary</h4>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px;">
+                        <div><strong style="color: var(--primary);">Gender:</strong> <span style="color: var(--muted);">${data.gender}</span></div>
+                        <div><strong style="color: var(--primary);">Height:</strong> <span style="color: var(--muted);">${data.height_cm} cm</span></div>
+                        <div><strong style="color: var(--primary);">Weight:</strong> <span style="color: var(--muted);">${data.weight_kg} kg</span></div>
+                        <div><strong style="color: var(--primary);">Goal:</strong> <span style="color: var(--muted);">${data.goal}</span></div>
+                        <div><strong style="color: var(--primary);">Hypertension:</strong> <span style="color: var(--muted);">${data.hypertension}</span></div>
+                        <div><strong style="color: var(--primary);">Symptoms:</strong> <span style="color: var(--muted);">${data.symptoms.join(', ')}</span></div>
+                    </div>
+                </div>
+
+                <div style="text-align: center; padding: 20px; background: rgba(6, 214, 160, 0.05); border-radius: 8px;">
+                    <p style="color: var(--muted); font-size: 0.9rem;">
+                        ⚕️ <strong>Disclaimer:</strong> This report is for informational purposes only. 
+                        Always consult with a qualified healthcare professional for medical advice.
+                    </p>
+                </div>
+            `;
+        }
+
+        async function predict() {
+            const selected = Array.from(document.querySelectorAll('#symptomsList .symptom-chip')).filter(btn => btn.style.background === 'var(--primary)').map(b => b.dataset.sym);
+            const payload = {
+                name: document.getElementById('name').value,
+                age: parseInt(document.getElementById('age').value) || 25,
+                gender: document.getElementById('gender').value,
+                height_cm: parseFloat(document.getElementById('height_cm').value) || 170,
+                weight_kg: parseFloat(document.getElementById('weight_kg').value) || 70,
+                goal: document.getElementById('goal').value,
+                hypertension: document.getElementById('hypertension').value,
+                symptoms: selected,
+                other: document.getElementById('other').value
+            };
+
+            try {
+                const res = await fetch(`${API}/api/health`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify(payload)
+                });
+                const result = await res.json();
+                if (!res.ok) {
+                    alert('Error: ' + (result.error || 'Prediction failed'));
+                    return;
+                }
+                document.getElementById('reportContent').innerHTML = formatReport(result);
+                document.getElementById('predictResult').style.display = 'block';
+            } catch (e) {
+                alert('Error: ' + e.message);
+            }
+        }
+
+        function openAddSymptomModal() {
+            document.getElementById('addSymptomModal').classList.add('active');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+        }
+
+        async function addSymptom() {
+            const name = document.getElementById('newSymptomName').value.trim();
+            const weight = parseFloat(document.getElementById('newSymptomWeight').value) || 5;
+
+            if (!name) return alert('Please enter symptom name');
+
+            try {
+                const res = await fetch(`${API}/api/admin/add-symptom`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ symptom: name, weight })
+                });
+                const result = await res.json();
+                document.getElementById('addSymptomMsg').innerHTML = `<div class="success-msg">${result.message}</div>`;
+                setTimeout(() => {
+                    closeModal('addSymptomModal');
+                    loadSymptoms();
+                }, 1500);
+            } catch (e) {
+                document.getElementById('addSymptomMsg').innerHTML = `<div class="error-msg">Error: ${e.message}</div>`;
+            }
+        }
+
+        async function showDiseaseInfo(disease) {
+            try {
+                const res = await fetch(`${API}/api/admin/predictions/${encodeURIComponent(disease)}`);
+                const data = await res.json();
+                document.getElementById('diseaseTitle').textContent = data.disease;
+                document.getElementById('diseaseDetails').innerHTML = `
+                    <p><strong>Description:</strong></p>
+                    <p>${data.description}</p>
+                    <p style="margin-top: 15px;"><strong>Precautions:</strong></p>
+                    <ul style="margin-left: 20px;">
+                        ${data.precautions.map(p => `<li>${p}</li>`).join('')}
+                    </ul>
+                `;
+                document.getElementById('diseaseInfoModal').classList.add('active');
+            } catch (e) {
+                alert('Error loading disease info: ' + e.message);
+            }
+        }
+
+        function editSymptom(sym) {
+            alert('Edit functionality for: ' + sym);
+        }
+    </script>
+</body>
+</html>

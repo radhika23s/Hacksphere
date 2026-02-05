@@ -1,0 +1,323 @@
+{
+  "en": {
+    "title": "HealthifyAI Dashboard",
+    "subtitle": "ML-Powered Health Prediction & Management System",
+    "tabs": {
+      "predict": "Predict",
+      "status": "Status",
+      "symptoms": "Symptoms",
+      "diseases": "Diseases",
+      "profile": "Profile"
+    },
+    "auth": {
+      "login": "Login",
+      "register": "Register",
+      "logout": "Logout",
+      "username": "Username",
+      "email": "Email",
+      "password": "Password",
+      "confirm_password": "Confirm Password",
+      "login_success": "Login successful",
+      "register_success": "Registration successful",
+      "logout_success": "Logout successful",
+      "login_error": "Login failed",
+      "register_error": "Registration failed",
+      "username_required": "Username is required",
+      "email_required": "Email is required",
+      "password_required": "Password is required",
+      "passwords_not_match": "Passwords do not match"
+    },
+    "predict": {
+      "title": "Health Prediction Form",
+      "name": "Name",
+      "age": "Age",
+      "gender": "Gender",
+      "male": "Male",
+      "female": "Female",
+      "height": "Height (cm)",
+      "weight": "Weight (kg)",
+      "goal": "Fitness Goal",
+      "stay_fit": "Stay Fit",
+      "lose_weight": "Lose Weight",
+      "gain_muscle": "Gain Muscle",
+      "hypertension": "Hypertension",
+      "yes": "Yes",
+      "no": "No",
+      "symptoms": "Select Symptoms:",
+      "other_symptoms": "Other Symptoms (comma separated)",
+      "predict_button": "Get Health Report",
+      "report_title": "Your Health Report",
+      "name_label": "Name",
+      "age_label": "Age",
+      "bmi_label": "BMI",
+      "risk_score": "Risk Score",
+      "disease_diagnosis": "Disease Diagnosis",
+      "precautions": "Precautions",
+      "diet_plan": "Customized Diet Plan",
+      "workout_routine": "Workout Routine",
+      "wellness_recommendation": "Wellness Recommendation",
+      "health_profile": "Health Profile Summary",
+      "gender_label": "Gender",
+      "height_label": "Height",
+      "weight_label": "Weight",
+      "goal_label": "Goal",
+      "hypertension_label": "Hypertension",
+      "symptoms_label": "Symptoms",
+      "disclaimer": "Disclaimer",
+      "disclaimer_text": "This report is for informational purposes only. Always consult with a qualified healthcare professional for medical advice."
+    },
+    "status": {
+      "title": "System Status",
+      "model_accuracy": "Model Accuracy",
+      "known_symptoms": "Known Symptoms",
+      "total_diseases": "Total Diseases",
+      "training_records": "Training Records",
+      "fitness_plans": "Fitness Plans"
+    },
+    "symptoms": {
+      "title": "Manage Symptoms",
+      "add_new": "+ Add New Symptom",
+      "symptom_name": "Symptom Name",
+      "weight": "Weight (1-10)",
+      "add": "Add Symptom",
+      "edit": "Edit"
+    },
+    "diseases": {
+      "title": "Disease Information",
+      "view": "View"
+    },
+    "profile": {
+      "title": "User Profile",
+      "update_profile": "Update Profile",
+      "save": "Save Profile",
+      "profile_updated": "Profile updated successfully"
+    },
+    "language": {
+      "select": "Select Language",
+      "english": "English",
+      "marathi": "मराठी",
+      "hindi": "हिंदी"
+    },
+    "common": {
+      "loading": "Loading...",
+      "error": "Error",
+      "success": "Success",
+      "cancel": "Cancel",
+      "close": "Close"
+    }
+  },
+  "mr": {
+    "title": "हेल्थिफाईएआय डॅशबोर्ड",
+    "subtitle": "एमएल-संचालित आरोग्य अंदाज आणि व्यवस्थापन प्रणाली",
+    "tabs": {
+      "predict": "अंदाज",
+      "status": "स्थिती",
+      "symptoms": "लक्षणे",
+      "diseases": "रोग",
+      "profile": "प्रोफाइल"
+    },
+    "auth": {
+      "login": "लॉगिन",
+      "register": "नोंदणी",
+      "logout": "लॉगआउट",
+      "username": "वापरकर्तानाव",
+      "email": "ईमेल",
+      "password": "पासवर्ड",
+      "confirm_password": "पासवर्डची पुष्टी करा",
+      "login_success": "लॉगिन यशस्वी",
+      "register_success": "नोंदणी यशस्वी",
+      "logout_success": "लॉगआउट यशस्वी",
+      "login_error": "लॉगिन अयशस्वी",
+      "register_error": "नोंदणी अयशस्वी",
+      "username_required": "वापरकर्तानाव आवश्यक आहे",
+      "email_required": "ईमेल आवश्यक आहे",
+      "password_required": "पासवर्ड आवश्यक आहे",
+      "passwords_not_match": "पासवर्ड जुळत नाहीत"
+    },
+    "predict": {
+      "title": "आरोग्य अंदाज फॉर्म",
+      "name": "नाव",
+      "age": "वय",
+      "gender": "लिंग",
+      "male": "पुरुष",
+      "female": "स्त्री",
+      "height": "उंची (सेमी)",
+      "weight": "वजन (किलो)",
+      "goal": "फिटनेस ध्येय",
+      "stay_fit": "फिट राहा",
+      "lose_weight": "वजन कमी करा",
+      "gain_muscle": "स्नायू वाढवा",
+      "hypertension": "उच्च रक्तदाब",
+      "yes": "होय",
+      "no": "नाही",
+      "symptoms": "लक्षणे निवडा:",
+      "other_symptoms": "इतर लक्षणे (स्वल्पविरामाने विभक्त)",
+      "predict_button": "आरोग्य अहवाल मिळवा",
+      "report_title": "तुमचा आरोग्य अहवाल",
+      "name_label": "नाव",
+      "age_label": "वय",
+      "bmi_label": "बीएमआय",
+      "risk_score": "जोखीम स्कोअर",
+      "disease_diagnosis": "रोग निदान",
+      "precautions": "सावधानता",
+      "diet_plan": "वैयक्तिक आहार योजना",
+      "workout_routine": "व्यायाम दिनचर्या",
+      "wellness_recommendation": "आरोग्य शिफारस",
+      "health_profile": "आरोग्य प्रोफाइल सारांश",
+      "gender_label": "लिंग",
+      "height_label": "उंची",
+      "weight_label": "वजन",
+      "goal_label": "ध्येय",
+      "hypertension_label": "उच्च रक्तदाब",
+      "symptoms_label": "लक्षणे",
+      "disclaimer": "अस्वीकरण",
+      "disclaimer_text": "हा अहवाल केवळ माहितीच्या उद्देशाने आहे. वैद्यकीय सल्ल्यासाठी नेहमी पात्र आरोग्य व्यावसायिकाचा सल्ला घ्या."
+    },
+    "status": {
+      "title": "प्रणाली स्थिती",
+      "model_accuracy": "मॉडेल अचूकता",
+      "known_symptoms": "माहिती असलेली लक्षणे",
+      "total_diseases": "एकूण रोग",
+      "training_records": "प्रशिक्षण रेकॉर्ड",
+      "fitness_plans": "फिटनेस योजना"
+    },
+    "symptoms": {
+      "title": "लक्षणे व्यवस्थापित करा",
+      "add_new": "+ नवीन लक्षण जोडा",
+      "symptom_name": "लक्षणाचे नाव",
+      "weight": "वजन (1-10)",
+      "add": "लक्षण जोडा",
+      "edit": "संपादित करा"
+    },
+    "diseases": {
+      "title": "रोग माहिती",
+      "view": "पहा"
+    },
+    "profile": {
+      "title": "वापरकर्ता प्रोफाइल",
+      "update_profile": "प्रोफाइल अपडेट करा",
+      "save": "प्रोफाइल जतन करा",
+      "profile_updated": "प्रोफाइल यशस्वीरीत्या अपडेट केली"
+    },
+    "language": {
+      "select": "भाषा निवडा",
+      "english": "English",
+      "marathi": "मराठी",
+      "hindi": "हिंदी"
+    },
+    "common": {
+      "loading": "लोड होत आहे...",
+      "error": "त्रुटी",
+      "success": "यश",
+      "cancel": "रद्द करा",
+      "close": "बंद करा"
+    }
+  },
+  "hi": {
+    "title": "हेल्थिफाईएआय डैशबोर्ड",
+    "subtitle": "एमएल-संचालित स्वास्थ्य भविष्यवाणी और प्रबंधन प्रणाली",
+    "tabs": {
+      "predict": "भविष्यवाणी",
+      "status": "स्थिति",
+      "symptoms": "लक्षण",
+      "diseases": "बीमारियाँ",
+      "profile": "प्रोफ़ाइल"
+    },
+    "auth": {
+      "login": "लॉगिन",
+      "register": "पंजीकरण",
+      "logout": "लॉगआउट",
+      "username": "उपयोगकर्ता नाम",
+      "email": "ईमेल",
+      "password": "पासवर्ड",
+      "confirm_password": "पासवर्ड की पुष्टि करें",
+      "login_success": "लॉगिन सफल",
+      "register_success": "पंजीकरण सफल",
+      "logout_success": "लॉगआउट सफल",
+      "login_error": "लॉगिन विफल",
+      "register_error": "पंजीकरण विफल",
+      "username_required": "उपयोगकर्ता नाम आवश्यक है",
+      "email_required": "ईमेल आवश्यक है",
+      "password_required": "पासवर्ड आवश्यक है",
+      "passwords_not_match": "पासवर्ड मेल नहीं खाते"
+    },
+    "predict": {
+      "title": "स्वास्थ्य भविष्यवाणी फॉर्म",
+      "name": "नाम",
+      "age": "आयु",
+      "gender": "लिंग",
+      "male": "पुरुष",
+      "female": "महिला",
+      "height": "ऊँचाई (सेमी)",
+      "weight": "वजन (किलो)",
+      "goal": "फिटनेस लक्ष्य",
+      "stay_fit": "फिट रहें",
+      "lose_weight": "वजन कम करें",
+      "gain_muscle": "मांसपेशियाँ बढ़ाएँ",
+      "hypertension": "उच्च रक्तचाप",
+      "yes": "हाँ",
+      "no": "नहीं",
+      "symptoms": "लक्षण चुनें:",
+      "other_symptoms": "अन्य लक्षण (अल्पविराम से अलग)",
+      "predict_button": "स्वास्थ्य रिपोर्ट प्राप्त करें",
+      "report_title": "आपकी स्वास्थ्य रिपोर्ट",
+      "name_label": "नाम",
+      "age_label": "आयु",
+      "bmi_label": "बीएमआई",
+      "risk_score": "जोखिम स्कोर",
+      "disease_diagnosis": "बीमारी का निदान",
+      "precautions": "सावधानियाँ",
+      "diet_plan": "वैयक्तिकृत आहार योजना",
+      "workout_routine": "व्यायाम दिनचर्या",
+      "wellness_recommendation": "स्वास्थ्य सिफारिश",
+      "health_profile": "स्वास्थ्य प्रोफ़ाइल सारांश",
+      "gender_label": "लिंग",
+      "height_label": "ऊँचाई",
+      "weight_label": "वजन",
+      "goal_label": "लक्ष्य",
+      "hypertension_label": "उच्च रक्तचाप",
+      "symptoms_label": "लक्षण",
+      "disclaimer": "अस्वीकरण",
+      "disclaimer_text": "यह रिपोर्ट केवल सूचनात्मक उद्देश्यों के लिए है। चिकित्सा सलाह के लिए हमेशा योग्य स्वास्थ्य पेशेवर से परामर्श करें।"
+    },
+    "status": {
+      "title": "प्रणाली स्थिति",
+      "model_accuracy": "मॉडल सटीकता",
+      "known_symptoms": "ज्ञात लक्षण",
+      "total_diseases": "कुल बीमारियाँ",
+      "training_records": "प्रशिक्षण रिकॉर्ड",
+      "fitness_plans": "फिटनेस योजनाएँ"
+    },
+    "symptoms": {
+      "title": "लक्षण प्रबंधित करें",
+      "add_new": "+ नया लक्षण जोड़ें",
+      "symptom_name": "लक्षण का नाम",
+      "weight": "वजन (1-10)",
+      "add": "लक्षण जोड़ें",
+      "edit": "संपादित करें"
+    },
+    "diseases": {
+      "title": "बीमारी की जानकारी",
+      "view": "देखें"
+    },
+    "profile": {
+      "title": "उपयोगकर्ता प्रोफ़ाइल",
+      "update_profile": "प्रोफ़ाइल अपडेट करें",
+      "save": "प्रोफ़ाइल सहेजें",
+      "profile_updated": "प्रोफ़ाइल सफलतापूर्वक अपडेट की गई"
+    },
+    "language": {
+      "select": "भाषा चुनें",
+      "english": "English",
+      "marathi": "मराठी",
+      "hindi": "हिंदी"
+    },
+    "common": {
+      "loading": "लोड हो रहा है...",
+      "error": "त्रुटि",
+      "success": "सफलता",
+      "cancel": "रद्द करें",
+      "close": "बंद करें"
+    }
+  }
+}
